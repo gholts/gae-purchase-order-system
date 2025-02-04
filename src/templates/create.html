@@ -1,11 +1,9 @@
-{% extends 'base.html' %}
-
-{% block title %}Create a new purchase order{% endblock %}
+{% extends 'base.html' %}{% block title %}Create a new purchase order{% endblock %}
 
 {% block create_active %} class="active"{% endblock %}
 
 {% block content %}
-    <h2>Create a new purchase order <small id="ppoid"></small></h2>
+    <h2>Create a new purchase order <small id="ppoid">{{ form._ppoid }}</small></h2>
     {% if success %}
         <p>Great, your purchase order has been created! You should hear back soon (by email) whether your order has been accepted or denied.</p>
     {% else %}
@@ -35,7 +33,8 @@
                 <label for="price"><span class="text-danger">*</span> Price (without $):</label>
                 <input type="text" id="price" name="price" min="0" class="form-control" value="{{ form.price }}" required/>
             </div>
-            <input type="hidden" id="_poid" name="_poid">
+            <input type="hidden" id="_poid" name="_poid" value="{{ form._poid }}">
+            <input type="hidden" id="_ppoid" name="_ppoid" value="{{ form._ppoid }}">
             <div class="form-group">
                 <label for="accountcode">Account code/description:</label>
                 <input type="text" id="accountcode" name="accountcode" class="form-control" value="{{ form.account_code }}" />

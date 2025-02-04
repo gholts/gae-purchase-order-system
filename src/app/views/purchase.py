@@ -1,6 +1,7 @@
 """
 Views for purchase orders
 """
+
 from flask import Blueprint, redirect, url_for, request, session
 from google.cloud import ndb
 
@@ -121,11 +122,14 @@ def create_purchase_post():
                 account_code=account_code,
             )
     except (ValueError, KeyError) as ve:
+        print(post_body.get("_ppoid"))
         context["form"] = {
             "supplier": post_body.get("supplier"),
             "product": post_body.get("product"),
             "price": post_body.get("price"),
             "account_code": post_body.get("accountcode"),
+            "_poid": post_body.get("_poid"),
+            "_ppoid": post_body.get("_ppoid"),
         }
         context["errors"] = [str(ve)]
 
