@@ -1,6 +1,7 @@
 """
 settings.py Documentation
 """
+
 import os
 
 # CLIENT_CONFIG is the contents of the file you can download from "Client ID for Web application" in
