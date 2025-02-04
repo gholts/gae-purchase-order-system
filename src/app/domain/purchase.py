@@ -3,6 +3,7 @@ Domain code for purchase orders
 
 These functions should be called from within an ndb client context, they won't create their own
 """
+
 import logging
 import uuid
 
@@ -68,12 +69,13 @@ def create_purchase_order(
     if po_id:
         new_po_key = PurchaseOrder.build_key(po_id)
         new_po = new_po_key.get()
-        logging.info(new_po)
+        logging.info(f"fetched po by supplied id {po_id}")
     else:
         new_po = PurchaseOrder(key=PurchaseOrder.build_key(generated_po_id))
         new_po.po_id = generated_po_id
         new_po.pretty_po_id = PurchaseOrder.get_next_pretty_po_id()
         po_id = generated_po_id
+        logging.info(f"created new po object with id: {po_id}, {new_po.pretty_po_id}")
 
     split_purchaser = purchaser.split("@")
     # Always take what's before the @, never "whoever@cdac.ca"
@@ -85,6 +87,8 @@ def create_purchase_order(
         new_po.account_code = account_code
     new_po.price = float(price)
 
+    logging.info(new_po)
+    logging.info(f"creating new po {new_po.po_id}, {new_po.pretty_po_id}")
     new_po.put()
 
     return po_id
@@ -99,6 +103,9 @@ def create_interim_purchase_order():
     new_po.pretty_po_id = PurchaseOrder.get_next_pretty_po_id()
     new_po.put()
 
+    # Get current user because we haven't added the purchaser yet
+    user = get_current_user()
+    logging.info(f"interim po created by {user["name"]}: {new_po}")
     return new_po
 
 
