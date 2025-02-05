@@ -122,7 +122,6 @@ def create_purchase_post():
                 account_code=account_code,
             )
     except (ValueError, KeyError) as ve:
-        print(post_body.get("_ppoid"))
         context["form"] = {
             "supplier": post_body.get("supplier"),
             "product": post_body.get("product"),
